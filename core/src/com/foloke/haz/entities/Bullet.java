@@ -49,8 +49,8 @@ public class Bullet extends DynamicEntity {
     }
 
     @Override
-    public void render(SpriteBatch batch) {
-        super.render(batch);
+    public void render(SpriteBatch batch, float delta) {
+        super.render(batch, delta);
         lifetime--;
 
         if(lifetime <= 0) {

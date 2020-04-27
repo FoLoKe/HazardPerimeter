@@ -1,33 +1,31 @@
 package com.foloke.haz.controllers;
 
+import com.badlogic.gdx.ai.GdxAI;
+import com.badlogic.gdx.ai.btree.BehaviorTree;
+import com.badlogic.gdx.ai.btree.Task;
+import com.badlogic.gdx.ai.btree.utils.BehaviorTreeLibrary;
+import com.badlogic.gdx.ai.btree.utils.BehaviorTreeLibraryManager;
+import com.badlogic.gdx.ai.btree.utils.BehaviorTreeParser;
+import com.badlogic.gdx.ai.btree.utils.BehaviorTreeReader;
 import com.foloke.haz.entities.Pawn;
 
 import java.util.Random;
 
 public class AI extends Controller {
-    public enum Behavior {AGGRESSION, SCARE, PATROL, REST}
-    public Behavior state;
-    private Controller controller;
-    public int timer;
-    public int maxTimer;
-    public Random random;
+
+    private BehaviorTree<Pawn> behaviorTree;
 
     public AI(Pawn entity) {
         super(entity);
-        state = Behavior.REST;
-        random = new Random();
+
+        BehaviorTreeLibraryManager behaviorTreeLibraryManager = BehaviorTreeLibraryManager.getInstance();
+        behaviorTreeLibraryManager.setLibrary(new BehaviorTreeLibrary(BehaviorTreeParser.DEBUG_HIGH));
+        this.behaviorTree = behaviorTreeLibraryManager.createBehaviorTree("btrees/character", entity);
+        behaviorTree.start();
     }
 
-    public void act() {
-        if(controller != null) {
-            switch (state) {
-                case REST:
-                    stop();
-                    break;
-                case PATROL:
-                    move(Controller.MovementType.NORMAL, true);
-                    break;
-            }
-        }
+    public void act(float delta) {
+        behaviorTree.step();
+        GdxAI.getTimepiece().update(delta);
     }
 }

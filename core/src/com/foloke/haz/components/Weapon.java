@@ -44,9 +44,9 @@ public class Weapon {
         magazine = maxMagazineSize;
     }
 
-    public void render(SpriteBatch batch) {
+    public void render(SpriteBatch batch, float delta) {
         for(Bullet bullet : bullets) {
-            bullet.render(batch);
+            bullet.render(batch, delta);
         }
 
         Iterator<Bullet> bulletIterator = bullets.iterator();

@@ -1,0 +1,15 @@
+#
+# Character tree
+#
+
+# Alias definitions
+import waitTask:"com.foloke.haz.controllers.tasks.WaitTask"
+import walkTask:"com.foloke.haz.controllers.tasks.WalkTask"
+
+# Tree definition
+root
+ sequence
+  repeat times:"constant,2"
+   walkTask
+  wait seconds:"constant,1.0f"
+  waitTask

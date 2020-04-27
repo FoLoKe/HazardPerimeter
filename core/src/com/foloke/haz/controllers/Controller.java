@@ -14,7 +14,7 @@ public class Controller {
         pawn.fixRotation(true);
     }
 
-    public void act() {
+    public void act(float delta) {
 
     }
 

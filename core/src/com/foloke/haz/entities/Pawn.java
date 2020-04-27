@@ -28,11 +28,11 @@ public class Pawn extends DynamicEntity {
     }
 
     @Override
-    public void render(SpriteBatch batch) {
-        super.render(batch);
-        controller.act();
+    public void render(SpriteBatch batch, float delta) {
+        super.render(batch, delta);
+        controller.act(delta);
 
-        weapon.render(batch);
+        weapon.render(batch, delta);
     }
 
     public void setController(Controller controller) {

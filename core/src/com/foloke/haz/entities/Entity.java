@@ -25,7 +25,7 @@ public abstract class Entity {
         this.sprite = new Sprite(texture);
     }
 
-    public void render(SpriteBatch batch) {
+    public void render(SpriteBatch batch, float delta) {
         sprite.setCenterX(body.getPosition().x * GameScreen.PPM);
         sprite.setCenterY(body.getPosition().y * GameScreen.PPM);
         sprite.setRotation(body.getAngle() * MathUtils.radiansToDegrees);

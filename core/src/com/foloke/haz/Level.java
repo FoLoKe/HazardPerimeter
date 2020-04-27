@@ -1,5 +1,6 @@
 package com.foloke.haz;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapObject;
@@ -100,7 +101,7 @@ public class Level {
 
         batch.begin();
         for (Entity entity : entityList) {
-            entity.render(batch);
+            entity.render(batch, Gdx.graphics.getDeltaTime());
         }
         batch.end();
     }
