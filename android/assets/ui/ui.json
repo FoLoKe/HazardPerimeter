@@ -1,0 +1,76 @@
+{
+com.badlogic.gdx.graphics.g2d.BitmapFont: {
+	monospacemedium: {
+		file: monospace.medium.fnt
+	}
+}
+com.badlogic.gdx.graphics.Color: {
+	RGBA_255_0_0_255: {
+		r: 1
+		g: 0
+		b: 0
+		a: 1
+	}
+	RGBA_255_255_255_255: {
+		r: 1
+		g: 1
+		b: 1
+		a: 1
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
+	default: {
+		up: button_bg
+		down: button_pressed_bg
+		over: button_bg
+		focused: button_bg
+		checked: button_bg
+		checkedOver: button_bg
+		checkedFocused: button_bg
+		disabled: button_bg
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle: {
+	default: {
+		imageUp: button_bg
+		imageDown: button_pressed_bg
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
+	default: {
+		font: monospacemedium
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.ProgressBar$ProgressBarStyle: {
+	default-horizontal: {
+		background: button_bg
+		knob: button_pressed_bg
+		knobBefore: button_pressed_bg
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle: {
+	default: {
+		background: button_bg
+		corner: button_pressed_bg
+		hScroll: button_pressed_bg
+		hScrollKnob: button_pressed_bg
+		vScroll: button_pressed_bg
+		vScrollKnob: button_pressed_bg
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+	default: {
+		parent: default
+		font: monospacemedium
+		fontColor: RGBA_255_255_255_255
+		up: button_bg
+		down: button_pressed_bg
+		pressedOffsetY: -1
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle: {
+	default: {
+		label: default
+	}
+}
+}

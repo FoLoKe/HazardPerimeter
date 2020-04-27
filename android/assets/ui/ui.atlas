@@ -1,0 +1,27 @@
+
+ui.png
+size: 512,512
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+button_bg
+  rotate: false
+  xy: 1, 421
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+button_pressed_bg
+  rotate: false
+  xy: 1, 387
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+monospace.medium
+  rotate: false
+  xy: 1, 455
+  size: 506, 50
+  orig: 506, 50
+  offset: 0, 0
+  index: -1
