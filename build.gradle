@@ -27,6 +27,7 @@ allprojects {
         box2DLightsVersion = '1.4'
         ashleyVersion = '1.7.0'
         aiVersion = '1.8.0'
+        spineVersion = '3.6.52.1'
     }
 
     repositories {
@@ -52,6 +53,7 @@ project(":desktop") {
         api "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-controllers-desktop:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-controllers-platform:$gdxVersion:natives-desktop"
+        api "com.esotericsoftware.spine:spine-libgdx:$spineVersion"
         
     }
 }
@@ -85,7 +87,10 @@ project(":android") {
         api "com.badlogicgames.gdx:gdx-ai:$aiVersion"
         api "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-controllers-android:$gdxVersion"
-        
+        // https://mvnrepository.com/artifact/com.esotericsoftware.spine/spine-libgdx
+        api "com.esotericsoftware.spine:spine-libgdx:$spineVersion"
+
+
     }
 }
 
@@ -100,6 +105,7 @@ project(":core") {
         api "com.badlogicgames.box2dlights:box2dlights:$box2DLightsVersion"
         api "com.badlogicgames.gdx:gdx-ai:$aiVersion"
         api "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
+        api "com.esotericsoftware.spine:spine-libgdx:$spineVersion"
         
     }
 }

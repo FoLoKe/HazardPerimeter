@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -16,6 +17,8 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.esotericsoftware.spine.*;
+import com.esotericsoftware.spine.utils.SpineUtils;
 import com.foloke.haz.utils.HPContactListener;
 import com.foloke.haz.HPGame;
 import com.foloke.haz.Level;
@@ -49,6 +52,10 @@ public class GameScreen implements Screen {
     HPGame hpGame;
     Stage stage;
     InventoryUI inventoryUI;
+
+    Skeleton skeleton;
+    SkeletonRenderer skeletonRenderer;
+    AnimationState state;
 
     public GameScreen(HPGame hpGame) {
         this.hpGame = hpGame;
@@ -115,6 +122,25 @@ public class GameScreen implements Screen {
 
         inventoryUI.setVisible(false);
         Gdx.input.setInputProcessor(stage);
+
+        skeletonRenderer = new SkeletonRenderer();
+        skeletonRenderer.setPremultipliedAlpha(true);
+
+        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("animations/Test.atlas"));
+        SkeletonJson json = new SkeletonJson(atlas);
+        json.setScale(0.2f);
+
+        SkeletonData data = json.readSkeletonData(Gdx.files.internal("animations/Test.json"));
+        skeleton = new Skeleton(data);
+        skeleton.setPosition(32, 32);
+
+
+        AnimationStateData stateData = new AnimationStateData(data);
+        state = new AnimationState(stateData);
+
+        Animation  animation = data.findAnimation("walkAmimation");
+        state.setAnimation(0, animation, true);
+        
     }
 
     @Override
@@ -135,6 +161,13 @@ public class GameScreen implements Screen {
         level.debug(shapeDebugRenderer);
         shapeDebugRenderer.end();
 
+        state.update(Gdx.graphics.getDeltaTime());
+        state.apply(skeleton);
+        skeleton.updateWorldTransform();
+
+        batch.begin();
+        skeletonRenderer.draw(batch, skeleton);
+        batch.end();
 
         world.step(1 / 60f, 6, 2);
 

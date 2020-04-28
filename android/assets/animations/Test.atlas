@@ -1,0 +1,13 @@
+
+Test.png
+size: 8,8
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+LeftUpperLeg
+  rotate: false
+  xy: 1, 1
+  size: 3, 6
+  orig: 3, 6
+  offset: 0, 0
+  index: -1
