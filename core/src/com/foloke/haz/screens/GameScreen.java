@@ -14,7 +14,10 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.esotericsoftware.spine.*;
@@ -30,6 +33,7 @@ import com.foloke.haz.entities.Drop;
 import com.foloke.haz.entities.Pawn;
 import com.foloke.haz.ui.InventoryUI;
 import com.foloke.haz.utils.HPContactFilter;
+import com.foloke.haz.utils.UIStage;
 
 import static com.foloke.haz.HPGame.skin;
 
@@ -51,7 +55,7 @@ public class GameScreen implements Screen {
     Level level;
 
     HPGame hpGame;
-    Stage stage;
+    UIStage stage;
     InventoryUI inventoryUI;
 
     Skeleton skeleton;
@@ -94,7 +98,7 @@ public class GameScreen implements Screen {
         pawn.setController(new AI(pawn));
         level.spawn(pawn);
 
-        stage = new Stage();
+        stage = new UIStage();
         Table table = new Table();
         table.setSize(Gdx.graphics.getWidth() / 3f, 64);
         table.setPosition(10, Gdx.graphics.getHeight() - table.getHeight() - 10);
@@ -122,6 +126,8 @@ public class GameScreen implements Screen {
         inventoryUI.setPosition(10, Gdx.graphics.getHeight() - inventoryUI.getHeight() - 44);
 
         inventoryUI.setVisible(false);
+        inventoryUI.setTouchable(Touchable.enabled);
+
         Gdx.input.setInputProcessor(stage);
 
         skeletonRenderer = new SkeletonRenderer();
@@ -199,7 +205,9 @@ public class GameScreen implements Screen {
         }
 
         if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
-            controller.shoot();
+            if(!stage.isUiTouched()) {
+                controller.shoot();
+            }
         }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.G)) {

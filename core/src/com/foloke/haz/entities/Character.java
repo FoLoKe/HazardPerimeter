@@ -14,6 +14,7 @@ public class Character extends Pawn {
     public Character(TextureRegion textureRegion, World world) {
         super(textureRegion, world);
         weapon = new Weapon(textureRegion, world, this);
+        costume = new Costume();
 
         radiationCap = 1000;
         bioCap = 100;
