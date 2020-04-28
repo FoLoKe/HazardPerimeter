@@ -16,7 +16,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.foloke.haz.HPContactListener;
+import com.foloke.haz.utils.HPContactListener;
 import com.foloke.haz.HPGame;
 import com.foloke.haz.Level;
 import com.foloke.haz.controllers.AI;

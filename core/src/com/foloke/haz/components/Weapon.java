@@ -42,6 +42,7 @@ public class Weapon {
         fireRate = 15;
 
         magazine = maxMagazineSize;
+        damage = 10f;
     }
 
     public void render(SpriteBatch batch, float delta) {

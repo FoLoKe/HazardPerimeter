@@ -79,6 +79,8 @@ public abstract class Entity {
     }
 
     public void applyDamage(float damage) {
+        System.out.println("damaged " + damage);
+
         if(hp > 0) {
             hp -= damage;
         }
