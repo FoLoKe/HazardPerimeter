@@ -16,7 +16,6 @@ public class Weapon {
     public World world;
     public TextureRegion textureRegion;
     public Pawn holder;
-    public float damage;
     private List<Bullet> bullets;
 
     public final int maxMagazineSize;
@@ -42,7 +41,6 @@ public class Weapon {
         fireRate = 15;
 
         magazine = maxMagazineSize;
-        damage = 10f;
     }
 
     public void render(SpriteBatch batch, float delta) {

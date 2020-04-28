@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.*;
 import com.foloke.haz.screens.GameScreen;
 
-public class DynamicEntity extends Entity {
+public abstract class DynamicEntity extends Entity {
 
     public DynamicEntity(TextureRegion textureRegion, World world) {
         super(textureRegion);
@@ -30,8 +30,6 @@ public class DynamicEntity extends Entity {
         shape.dispose();
 
         body.setLinearDamping(0.1f);
-
-        hp = 100;
     }
 
     public DynamicEntity(TextureRegion textureRegion) {

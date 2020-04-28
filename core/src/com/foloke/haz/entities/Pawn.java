@@ -3,6 +3,7 @@ package com.foloke.haz.entities;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.World;
+import com.foloke.haz.components.Damage;
 import com.foloke.haz.controllers.Controller;
 import com.foloke.haz.components.Inventory;
 import com.foloke.haz.components.Weapon;
@@ -10,29 +11,34 @@ import com.foloke.haz.components.Weapon;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Pawn extends DynamicEntity {
+public abstract class Pawn extends DynamicEntity implements Contactable {
     private float linearSpeed = 10;
     private float jumpImpulse = 5;
-    private Weapon weapon;
+
+    protected float radiation;
+    protected float bio;
+    protected float hp;
+    protected float stamina;
+
+    protected float radiationCap;
+    protected float bioCap;
 
     private Controller controller;
     private List<Contactable> contacts;
 
     public Pawn(TextureRegion textureRegion, World world) {
         super(textureRegion, world);
-        weapon = new Weapon(textureRegion, world, this);
         inventory = new Inventory(this);
         inventory.add(new Inventory.Item(1,10));
-
         contacts = new ArrayList<>();
+
+        hp = 100;
     }
 
     @Override
     public void render(SpriteBatch batch, float delta) {
         super.render(batch, delta);
         controller.act(delta);
-
-        weapon.render(batch, delta);
     }
 
     public void setController(Controller controller) {
@@ -66,11 +72,7 @@ public class Pawn extends DynamicEntity {
         body.setLinearVelocity(body.getLinearVelocity().x / 1.5f, body.getLinearVelocity().y);
     }
 
-    public void shoot() {
-        if(weapon != null) {
-            weapon.shoot();
-        }
-    }
+    public abstract void shoot();
 
     public void contact(Contactable entity) {
         contacts.add(entity);
@@ -84,5 +86,10 @@ public class Pawn extends DynamicEntity {
         for (Contactable entity : contacts) {
             entity.interact(this);
         }
+    }
+
+    @Override
+    public void interact(Entity entity) {
+
     }
 }

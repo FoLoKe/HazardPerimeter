@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.World;
+import com.foloke.haz.components.Damage;
 import com.foloke.haz.components.Inventory;
 import com.foloke.haz.screens.GameScreen;
 
@@ -16,7 +16,6 @@ public abstract class Entity {
     private Sprite sprite;
     protected Body body;
     protected boolean direction;
-    float hp = 0;
 
     public boolean destroyed;
     protected Inventory inventory;
@@ -78,17 +77,7 @@ public abstract class Entity {
         return direction;
     }
 
-    public void applyDamage(float damage) {
-        System.out.println("damaged " + damage);
-
-        if(hp > 0) {
-            hp -= damage;
-        }
-
-        if(hp <= 0) {
-            onDestroy();
-        }
-    }
+    public abstract void applyDamage(Damage damage);
 
     public void onDestroy() {
         destroyed = true;

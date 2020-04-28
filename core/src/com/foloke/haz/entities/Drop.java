@@ -1,6 +1,7 @@
 package com.foloke.haz.entities;
 
 import com.badlogic.gdx.physics.box2d.*;
+import com.foloke.haz.components.Damage;
 import com.foloke.haz.components.Inventory;
 import com.foloke.haz.screens.GameScreen;
 
@@ -46,5 +47,10 @@ public class Drop extends DynamicEntity implements Contactable {
         if (entity.inventory.add(item)) {
             destroyed = true;
         }
+    }
+
+    @Override
+    public void applyDamage(Damage damage) {
+        destroyed = true;
     }
 }

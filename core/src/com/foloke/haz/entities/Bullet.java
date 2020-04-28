@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.foloke.haz.components.Damage;
 import com.foloke.haz.components.Weapon;
 import com.foloke.haz.screens.GameScreen;
 
@@ -15,6 +16,7 @@ public class Bullet extends DynamicEntity {
     private float speed;
     private float lifetime = 60 * 2f;
     private Weapon weapon;
+    private Damage damage;
 
     public Bullet(TextureRegion textureRegion, World world, Weapon weapon) {
         super(textureRegion);
@@ -46,6 +48,9 @@ public class Bullet extends DynamicEntity {
         body.setGravityScale(0.01f);
 
         active = true;
+
+        damage = new Damage(Damage.Type.PENETRATION, 10f);
+        damage.damageClass = 1;
     }
 
     @Override
@@ -67,7 +72,7 @@ public class Bullet extends DynamicEntity {
     public void hit(Entity entity) {
         if(entity != null) {
             if (entity != weapon.holder) {
-                entity.applyDamage(weapon.damage);
+                entity.applyDamage(damage);
                 active = false;
             }
         } else {
@@ -75,4 +80,8 @@ public class Bullet extends DynamicEntity {
         }
     }
 
+    @Override
+    public void applyDamage(Damage damage) {
+
+    }
 }

@@ -7,7 +7,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.foloke.haz.screens.GameScreen;
 
-public class StaticEntity extends Entity {
+public abstract class StaticEntity extends Entity {
 
     public StaticEntity(TextureRegion textureRegion, World world) {
         super(textureRegion);

@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.esotericsoftware.spine.*;
 import com.esotericsoftware.spine.utils.SpineUtils;
+import com.foloke.haz.entities.Character;
 import com.foloke.haz.utils.HPContactListener;
 import com.foloke.haz.HPGame;
 import com.foloke.haz.Level;
@@ -81,7 +82,7 @@ public class GameScreen implements Screen {
 
         texture = new TextureRegion(img, 32, 32);
 
-        Pawn player = new Pawn(texture, world);
+        Pawn player = new Character(texture, world);
         controller = new Controller(player);
         player.setController(controller);
 
@@ -89,7 +90,7 @@ public class GameScreen implements Screen {
 
         level.spawn(player);
 
-        Pawn pawn = new Pawn(texture, world);
+        Pawn pawn = new Character(texture, world);
         pawn.setController(new AI(pawn));
         level.spawn(pawn);
 
@@ -140,7 +141,7 @@ public class GameScreen implements Screen {
 
         Animation  animation = data.findAnimation("walkAmimation");
         state.setAnimation(0, animation, true);
-        
+        state.addAnimation(0, animation, true, 0);
     }
 
     @Override
@@ -166,7 +167,7 @@ public class GameScreen implements Screen {
         skeleton.updateWorldTransform();
 
         batch.begin();
-        skeletonRenderer.draw(batch, skeleton);
+        //skeletonRenderer.draw(batch, skeleton);
         batch.end();
 
         world.step(1 / 60f, 6, 2);
