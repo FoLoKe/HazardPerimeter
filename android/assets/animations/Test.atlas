@@ -2,7 +2,7 @@
 Test.png
 size: 8,8
 format: RGBA8888
-filter: Linear,Linear
+filter: Nearest,Nearest
 repeat: none
 LeftUpperLeg
   rotate: false

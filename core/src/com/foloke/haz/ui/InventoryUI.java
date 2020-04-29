@@ -13,13 +13,13 @@ import com.foloke.haz.screens.GameScreen;
 import com.foloke.haz.utils.ItemsDataSheet;
 import static com.foloke.haz.HPGame.skin;
 
-public class InventoryUI extends Table {
+public class InventoryUI extends DraggableWindow {
     private Table itemsTable;
     private Inventory inventory;
     private GameScreen gameScreen;
 
     public InventoryUI(GameScreen gameScreen) {
-        super();
+        super(gameScreen);
 
         this.gameScreen = gameScreen;
         itemsTable = new Table();

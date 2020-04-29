@@ -1,9 +1,6 @@
-package com.foloke.haz.utils;
+package com.foloke.haz.ui;
 
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.*;
 
 public class UIStage extends Stage {
     private boolean uiTouched;
@@ -19,6 +16,8 @@ public class UIStage extends Stage {
                 return super.touchDown(event, x, y, pointer, button);
             }
         });
+
+        actor.setTouchable(Touchable.enabled);
     }
 
     public void addUntouchableActor(Actor actor) {

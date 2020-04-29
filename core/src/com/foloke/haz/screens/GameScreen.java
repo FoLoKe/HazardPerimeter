@@ -14,14 +14,9 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.esotericsoftware.spine.*;
-import com.esotericsoftware.spine.utils.SpineUtils;
 import com.foloke.haz.entities.Character;
 import com.foloke.haz.utils.HPContactListener;
 import com.foloke.haz.HPGame;
@@ -33,7 +28,7 @@ import com.foloke.haz.entities.Drop;
 import com.foloke.haz.entities.Pawn;
 import com.foloke.haz.ui.InventoryUI;
 import com.foloke.haz.utils.HPContactFilter;
-import com.foloke.haz.utils.UIStage;
+import com.foloke.haz.ui.UIStage;
 
 import static com.foloke.haz.HPGame.skin;
 
@@ -49,7 +44,7 @@ public class GameScreen implements Screen {
     public World world;
     private Box2DDebugRenderer debugRenderer;
     private Controller controller;
-    public static ShapeRenderer shapeDebugRenderer;
+    public ShapeRenderer shapeDebugRenderer;
     public static final int PPM = 32;
 
     Level level;
@@ -111,8 +106,6 @@ public class GameScreen implements Screen {
 
         pointsLabel.setWidth(16);
         pointsLabel.setWrap(true);
-//
-        table.row();
         table.addActor(pointsLabel);
 //
 //        table.add(hpBar).width(Gdx.graphics.getWidth() / 3f);
@@ -121,18 +114,18 @@ public class GameScreen implements Screen {
 
         inventoryUI = new InventoryUI(this);
         inventoryUI.update(controller.getInventory());
-        stage.addActor(inventoryUI);
         inventoryUI.setSize(Gdx.graphics.getWidth() / 3f, Gdx.graphics.getHeight() - 54);
         inventoryUI.setPosition(10, Gdx.graphics.getHeight() - inventoryUI.getHeight() - 44);
-
         inventoryUI.setVisible(false);
-        inventoryUI.setTouchable(Touchable.enabled);
+        stage.addActor(inventoryUI);
+
 
         Gdx.input.setInputProcessor(stage);
 
         skeletonRenderer = new SkeletonRenderer();
         skeletonRenderer.setPremultipliedAlpha(true);
 
+        //it's important to set "Nearest" filtering in atlas
         TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("animations/Test.atlas"));
         SkeletonJson json = new SkeletonJson(atlas);
         json.setScale(0.2f);
@@ -148,6 +141,9 @@ public class GameScreen implements Screen {
         Animation  animation = data.findAnimation("walkAmimation");
         state.setAnimation(0, animation, true);
         state.addAnimation(0, animation, true, 0);
+
+
+
     }
 
     @Override
@@ -173,7 +169,7 @@ public class GameScreen implements Screen {
         skeleton.updateWorldTransform();
 
         batch.begin();
-        //skeletonRenderer.draw(batch, skeleton);
+        skeletonRenderer.draw(batch, skeleton);
         batch.end();
 
         world.step(1 / 60f, 6, 2);
@@ -237,6 +233,7 @@ public class GameScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         camera.setToOrtho(false, width, height);
+        stage.getViewport().update(width, height);
     }
 
     @Override
