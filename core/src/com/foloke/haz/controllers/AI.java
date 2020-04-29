@@ -28,4 +28,8 @@ public class AI extends Controller {
         behaviorTree.step();
         GdxAI.getTimepiece().update(delta);
     }
+
+    public BehaviorTree<Pawn> getBehaviorTree() {
+        return behaviorTree;
+    }
 }

@@ -13,3 +13,10 @@ root
    walkTask
   wait seconds:"constant,1.0f"
   waitTask
+  parallel policy: "selector"
+   wait seconds:"constant,2.0f"
+   wait seconds:"constant,4.0f"
+   alwaysFail
+    waitTask
+
+

@@ -18,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.esotericsoftware.spine.*;
 import com.foloke.haz.entities.Character;
+import com.foloke.haz.ui.BTreeUI;
 import com.foloke.haz.utils.HPContactListener;
 import com.foloke.haz.HPGame;
 import com.foloke.haz.Level;
@@ -119,6 +120,10 @@ public class GameScreen implements Screen {
         inventoryUI.setVisible(false);
         stage.addActor(inventoryUI);
 
+        BTreeUI bTreeUI = new BTreeUI(this);
+        bTreeUI.debug(((AI)pawn.getController()).getBehaviorTree());
+        bTreeUI.setSize(320, 320);
+        stage.addActor(bTreeUI);
 
         Gdx.input.setInputProcessor(stage);
 
