@@ -8,17 +8,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
-import com.foloke.haz.entities.Pawn;
-import com.foloke.haz.screens.GameScreen;
 
 import static com.foloke.haz.HPGame.skin;
 
 public class BTreeUI<T> extends DraggableWindow {
-    //BehaviorTree<Pawn> tree;
     Table tasksTable;
 
-    public BTreeUI(GameScreen gameScreen) {
-        super(gameScreen);
+    public BTreeUI(UIStage uiStage) {
+        super(uiStage);
 
         tasksTable = new Table();
         ScrollPane scrollPane = new ScrollPane(tasksTable, skin);
@@ -39,7 +36,7 @@ public class BTreeUI<T> extends DraggableWindow {
 
     private void addTask(Table table, Task<T> task) {
 
-        Label label = new UpdatableTaskLabel<T>(task.getClass().getSimpleName(), skin, task);
+        UpdatableTaskLabel<T> label = new UpdatableTaskLabel<>(task.getClass().getSimpleName(), skin, task);
         table.add(label).expandX().align(Align.left);
 
         int childrenCount = task.getChildCount();
@@ -47,7 +44,6 @@ public class BTreeUI<T> extends DraggableWindow {
             table.row().padLeft(32);
             Table subTable = new Table();
             table.add(subTable).expandX().fillX();
-            table.setDebug(true);
 
             for (int i = 0; i < childrenCount; i++) {
                 subTable.row();
@@ -74,7 +70,7 @@ public class BTreeUI<T> extends DraggableWindow {
 
         private Color chooseColor(Task.Status status) {
             Color color = Color.GOLD;
-            switch (task.getStatus()) {
+            switch (status) {
                 case RUNNING:
                     color = Color.GREEN;
                     break;

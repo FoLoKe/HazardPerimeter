@@ -3,10 +3,8 @@ package com.foloke.haz.entities;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.World;
-import com.foloke.haz.components.Damage;
-import com.foloke.haz.controllers.Controller;
 import com.foloke.haz.components.Inventory;
-import com.foloke.haz.components.Weapon;
+import com.foloke.haz.controllers.Controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +20,7 @@ public abstract class Pawn extends DynamicEntity implements Contactable {
 
     protected float radiationCap;
     protected float bioCap;
+    private String name = "debug";
 
     private Controller controller;
     private List<Contactable> contacts;
@@ -89,7 +88,47 @@ public abstract class Pawn extends DynamicEntity implements Contactable {
     }
 
     @Override
-    public void interact(Entity entity) {
+    public Inventory getInventory() {
+        return super.getInventory();
+    }
 
+    public float getLinearSpeed() {
+        return linearSpeed;
+    }
+
+    public float getJumpImpulse() {
+        return jumpImpulse;
+    }
+
+    public float getRadiation() {
+        return radiation;
+    }
+
+    public float getBio() {
+        return bio;
+    }
+
+    public float getHp() {
+        return hp;
+    }
+
+    public float getStamina() {
+        return stamina;
+    }
+
+    public float getRadiationCap() {
+        return radiationCap;
+    }
+
+    public float getBioCap() {
+        return bioCap;
+    }
+
+    public List<Contactable> getContacts() {
+        return contacts;
+    }
+
+    public String getName() {
+        return name;
     }
 }

@@ -8,7 +8,6 @@ public class WalkTask extends LeafTask<Pawn> {
 
     @Override
     public Task.Status execute() {
-        System.out.println("walk");
         return Status.SUCCEEDED;
     }
 

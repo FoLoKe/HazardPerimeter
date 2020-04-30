@@ -66,4 +66,17 @@ public class Character extends Pawn {
                 break;
         }
     }
+
+    @Override
+    public void interact(Entity entity) {
+
+    }
+
+    public Weapon getWeapon() {
+        return weapon;
+    }
+
+    public Costume getCostume() {
+        return costume;
+    }
 }

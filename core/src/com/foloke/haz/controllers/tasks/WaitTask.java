@@ -7,7 +7,6 @@ import com.foloke.haz.entities.Pawn;
 public class WaitTask extends LeafTask<Pawn> {
     @Override
     public Status execute() {
-        System.out.println("wait");
         return Status.SUCCEEDED;
     }
 

@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.Align;
 import com.foloke.haz.components.Inventory;
 import com.foloke.haz.screens.GameScreen;
 import com.foloke.haz.utils.ItemsDataSheet;
+
 import static com.foloke.haz.HPGame.skin;
 
 public class InventoryUI extends DraggableWindow {
@@ -18,8 +19,8 @@ public class InventoryUI extends DraggableWindow {
     private Inventory inventory;
     private GameScreen gameScreen;
 
-    public InventoryUI(GameScreen gameScreen) {
-        super(gameScreen);
+    public InventoryUI(UIStage uiStage, GameScreen gameScreen) {
+        super(uiStage);
 
         this.gameScreen = gameScreen;
         itemsTable = new Table();

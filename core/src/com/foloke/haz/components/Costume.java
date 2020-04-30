@@ -12,6 +12,7 @@ public class Costume {
 
     //durability
     public float durability;
+    public float maxDurability;
 
     public Costume() {
 

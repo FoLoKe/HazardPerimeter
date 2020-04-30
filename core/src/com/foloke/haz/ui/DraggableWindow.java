@@ -3,25 +3,21 @@ package com.foloke.haz.ui;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.badlogic.gdx.utils.Align;
-import com.foloke.haz.screens.GameScreen;
 
 import static com.foloke.haz.HPGame.skin;
 
 public class DraggableWindow extends Table {
 
-    GameScreen gameScreen;
-    public DraggableWindow(GameScreen gameScreen) {
-        this.gameScreen = gameScreen;
-        setDebug(true);
+    UIStage uiStage;
+    public DraggableWindow(UIStage uiStage) {
+        this.uiStage = uiStage;
         align(Align.top);
 
         Container<Actor> container = new Container<>();

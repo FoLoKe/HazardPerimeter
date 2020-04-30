@@ -13,23 +13,26 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Array;
 import com.esotericsoftware.spine.*;
-import com.foloke.haz.entities.Character;
-import com.foloke.haz.ui.BTreeUI;
-import com.foloke.haz.utils.HPContactListener;
 import com.foloke.haz.HPGame;
 import com.foloke.haz.Level;
+import com.foloke.haz.components.Inventory;
 import com.foloke.haz.controllers.AI;
 import com.foloke.haz.controllers.Controller;
-import com.foloke.haz.components.Inventory;
+import com.foloke.haz.entities.Character;
 import com.foloke.haz.entities.Drop;
 import com.foloke.haz.entities.Pawn;
+import com.foloke.haz.ui.BTreeUI;
 import com.foloke.haz.ui.InventoryUI;
-import com.foloke.haz.utils.HPContactFilter;
+import com.foloke.haz.ui.PawnDebugUI;
 import com.foloke.haz.ui.UIStage;
+import com.foloke.haz.utils.HPContactFilter;
+import com.foloke.haz.utils.HPContactListener;
 
 import static com.foloke.haz.HPGame.skin;
 
@@ -53,6 +56,7 @@ public class GameScreen implements Screen {
     HPGame hpGame;
     UIStage stage;
     InventoryUI inventoryUI;
+    static PawnDebugUI pawnDebugUI;
 
     Skeleton skeleton;
     SkeletonRenderer skeletonRenderer;
@@ -113,17 +117,22 @@ public class GameScreen implements Screen {
 //        table.row();
 //        table.add(energyBar).width(Gdx.graphics.getWidth() / 3f);
 
-        inventoryUI = new InventoryUI(this);
+        inventoryUI = new InventoryUI(stage, this);
         inventoryUI.update(controller.getInventory());
         inventoryUI.setSize(Gdx.graphics.getWidth() / 3f, Gdx.graphics.getHeight() - 54);
         inventoryUI.setPosition(10, Gdx.graphics.getHeight() - inventoryUI.getHeight() - 44);
         inventoryUI.setVisible(false);
         stage.addActor(inventoryUI);
 
-        BTreeUI bTreeUI = new BTreeUI(this);
+        BTreeUI<Pawn> bTreeUI = new BTreeUI<Pawn>(stage);
         bTreeUI.debug(((AI)pawn.getController()).getBehaviorTree());
         bTreeUI.setSize(320, 320);
         stage.addActor(bTreeUI);
+
+        pawnDebugUI = new PawnDebugUI(stage);
+        pawnDebugUI.debug(pawn);
+        pawnDebugUI.setSize(320, 320);
+        stage.addActor(pawnDebugUI);
 
         Gdx.input.setInputProcessor(stage);
 
@@ -206,8 +215,26 @@ public class GameScreen implements Screen {
         }
 
         if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
-            if(!stage.isUiTouched()) {
-                controller.shoot();
+            if(stage.hit(Gdx.input.getX(), Gdx.input.getY(), false) == null && !stage.isUiTouched()) {
+                Array<Fixture> fixtures = new Array<>();
+
+                world.getFixtures(fixtures);
+                boolean hit = false;
+                for(Fixture fixture : fixtures) {
+                    if(fixture.getUserData() instanceof Pawn) {
+                        hit = fixture.testPoint((Gdx.input.getX() - Gdx.graphics.getWidth() / 2f + camera.position.x / camera.zoom) / PPM,
+                                (Gdx.input.getY() - Gdx.graphics.getHeight() / 2f + camera.position.y / camera.zoom) / PPM);
+                        if(hit) {
+                            System.out.println("hit");
+                            pawnDebugUI.debug((Pawn)fixture.getUserData());
+                            break;
+                        }
+                    }
+                }
+
+                if(!hit) {
+                    controller.shoot();
+                }
             }
         }
 

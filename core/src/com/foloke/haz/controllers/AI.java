@@ -2,14 +2,11 @@ package com.foloke.haz.controllers;
 
 import com.badlogic.gdx.ai.GdxAI;
 import com.badlogic.gdx.ai.btree.BehaviorTree;
-import com.badlogic.gdx.ai.btree.Task;
 import com.badlogic.gdx.ai.btree.utils.BehaviorTreeLibrary;
 import com.badlogic.gdx.ai.btree.utils.BehaviorTreeLibraryManager;
 import com.badlogic.gdx.ai.btree.utils.BehaviorTreeParser;
-import com.badlogic.gdx.ai.btree.utils.BehaviorTreeReader;
 import com.foloke.haz.entities.Pawn;
 
-import java.util.Random;
 
 public class AI extends Controller {
 
