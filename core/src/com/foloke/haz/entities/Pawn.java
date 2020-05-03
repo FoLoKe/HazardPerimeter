@@ -1,11 +1,11 @@
 package com.foloke.haz.entities;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.foloke.haz.components.Inventory;
 import com.foloke.haz.controllers.Controller;
+import com.foloke.haz.utils.RegionSkeleton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +26,10 @@ public abstract class Pawn extends DynamicEntity implements Contactable {
     private Controller controller;
     private List<Contactable> contacts;
 
-    public Pawn(TextureRegion textureRegion, World world) {
-        super(textureRegion, world);
+    protected RegionSkeleton regionSkeleton;
+
+    public Pawn(World world) {
+        super(0.5f, 0.5f, world);
         inventory = new Inventory(this);
         inventory.add(new Inventory.Item(1,10));
         contacts = new ArrayList<>();
@@ -37,7 +39,6 @@ public abstract class Pawn extends DynamicEntity implements Contactable {
 
     @Override
     public void render(SpriteBatch batch, float delta) {
-        super.render(batch, delta);
         controller.act(delta);
     }
 

@@ -1,29 +1,42 @@
 package com.foloke.haz.entities;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import com.esotericsoftware.spine.Animation;
+import com.esotericsoftware.spine.AnimationState;
+import com.esotericsoftware.spine.AnimationStateData;
 import com.foloke.haz.components.Costume;
 import com.foloke.haz.components.Damage;
 import com.foloke.haz.components.Weapon;
 import com.foloke.haz.screens.GameScreen;
+import com.foloke.haz.utils.SkeletonUtils;
 
 public class Character extends Pawn {
     private Weapon weapon;
     private Costume costume;
     private Vector2 sightPoint;
+    AnimationState state;
 
-    public Character(TextureRegion textureRegion, World world) {
-        super(textureRegion, world);
-        weapon = new Weapon(textureRegion, world, this);
+    public Character(World world) {
+        super(world);
+        weapon = new Weapon(GameScreen.texture, world, this);
         costume = new Costume();
 
         radiationCap = 1000;
         bioCap = 100;
 
         this.sightPoint = new Vector2();
+        regionSkeleton = SkeletonUtils.getSkeletonInstance("Test");
+
+        AnimationStateData stateData = new AnimationStateData(regionSkeleton.getData());
+        state = new AnimationState(stateData);
+
+        Animation animation = regionSkeleton.getData().findAnimation("walkAmimation");
+        state.setAnimation(0, animation, true);
+        //state.addAnimation(0, animation, true, 0);
     }
 
     @Override
@@ -41,6 +54,13 @@ public class Character extends Pawn {
         if(hp <= 0) {
             destroyed = true;
         }
+
+        regionSkeleton.setPosition(body.getPosition().x * GameScreen.PPM, body.getPosition().y * GameScreen.PPM);
+        state.update(Gdx.graphics.getDeltaTime());
+        state.apply(regionSkeleton);
+        regionSkeleton.updateWorldTransform();
+
+        GameScreen.skeletonRenderer.draw(batch, regionSkeleton);
     }
 
     public void setCostume(Costume costume) {

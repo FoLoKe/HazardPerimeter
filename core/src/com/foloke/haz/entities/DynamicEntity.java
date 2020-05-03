@@ -8,7 +8,20 @@ public abstract class DynamicEntity extends Entity {
 
     public DynamicEntity(TextureRegion textureRegion, World world) {
         super(textureRegion);
+        createBody(textureRegion.getRegionWidth() / (float)GameScreen.PPM, textureRegion.getRegionHeight() / (float)GameScreen.PPM, world);
 
+    }
+
+    public DynamicEntity(TextureRegion textureRegion) {
+        super(textureRegion);
+    }
+
+    public DynamicEntity(float w, float h, World world) {
+        super(null);
+        createBody(w, h, world);
+    }
+
+    private void createBody(float w, float h, World world) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(0, 0);
@@ -16,7 +29,7 @@ public abstract class DynamicEntity extends Entity {
         body.setLinearDamping(0);
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(textureRegion.getRegionWidth() / GameScreen.PPM / 4f, textureRegion.getRegionHeight() / GameScreen.PPM / 4f);
+        shape.setAsBox(w, h);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.density = 1;
@@ -30,9 +43,5 @@ public abstract class DynamicEntity extends Entity {
         shape.dispose();
 
         body.setLinearDamping(0.1f);
-    }
-
-    public DynamicEntity(TextureRegion textureRegion) {
-        super(textureRegion);
     }
 }

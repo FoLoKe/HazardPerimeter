@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -18,7 +17,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
-import com.esotericsoftware.spine.*;
+import com.esotericsoftware.spine.SkeletonRenderer;
 import com.foloke.haz.HPGame;
 import com.foloke.haz.Level;
 import com.foloke.haz.components.Inventory;
@@ -33,6 +32,7 @@ import com.foloke.haz.ui.PawnDebugUI;
 import com.foloke.haz.ui.UIStage;
 import com.foloke.haz.utils.HPContactFilter;
 import com.foloke.haz.utils.HPContactListener;
+import com.foloke.haz.utils.SkeletonUtils;
 
 import static com.foloke.haz.HPGame.skin;
 
@@ -58,9 +58,7 @@ public class GameScreen implements Screen {
     InventoryUI inventoryUI;
     static PawnDebugUI pawnDebugUI;
 
-    Skeleton skeleton;
-    SkeletonRenderer skeletonRenderer;
-    AnimationState state;
+    public static SkeletonRenderer skeletonRenderer;
 
     public GameScreen(HPGame hpGame) {
         this.hpGame = hpGame;
@@ -68,6 +66,8 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
+        SkeletonUtils.init();
+
         batch = new SpriteBatch();
         img = new Texture("badlogic.jpg");
         sound = Gdx.audio.newSound(Gdx.files.internal("sounds/shot.wav"));
@@ -83,10 +83,10 @@ public class GameScreen implements Screen {
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-
+        camera.zoom = 0.25f;
         texture = new TextureRegion(img, 32, 32);
 
-        Pawn player = new Character(texture, world);
+        Pawn player = new Character(world);
         controller = new Controller(player);
         player.setController(controller);
 
@@ -94,7 +94,7 @@ public class GameScreen implements Screen {
 
         level.spawn(player);
 
-        Pawn pawn = new Character(texture, world);
+        Pawn pawn = new Character(world);
         pawn.setController(new AI(pawn));
         level.spawn(pawn);
 
@@ -138,26 +138,6 @@ public class GameScreen implements Screen {
 
         skeletonRenderer = new SkeletonRenderer();
         skeletonRenderer.setPremultipliedAlpha(true);
-
-        //it's important to set "Nearest" filtering in atlas
-        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("animations/Test.atlas"));
-        SkeletonJson json = new SkeletonJson(atlas);
-        json.setScale(0.2f);
-
-        SkeletonData data = json.readSkeletonData(Gdx.files.internal("animations/Test.json"));
-        skeleton = new Skeleton(data);
-        skeleton.setPosition(32, 32);
-
-
-        AnimationStateData stateData = new AnimationStateData(data);
-        state = new AnimationState(stateData);
-
-        Animation  animation = data.findAnimation("walkAmimation");
-        state.setAnimation(0, animation, true);
-        state.addAnimation(0, animation, true, 0);
-
-
-
     }
 
     @Override
@@ -178,13 +158,7 @@ public class GameScreen implements Screen {
         level.debug(shapeDebugRenderer);
         shapeDebugRenderer.end();
 
-        state.update(Gdx.graphics.getDeltaTime());
-        state.apply(skeleton);
-        skeleton.updateWorldTransform();
 
-        batch.begin();
-        skeletonRenderer.draw(batch, skeleton);
-        batch.end();
 
         world.step(1 / 60f, 6, 2);
 
@@ -304,7 +278,7 @@ public class GameScreen implements Screen {
     }
 
     private Vector2 screenToWorld(float x, float y) {
-        return new Vector2((x - Gdx.graphics.getWidth() / 2f + camera.position.x / camera.zoom) / PPM,
-        -(y - Gdx.graphics.getHeight() / 2f - camera.position.y / camera.zoom) / PPM);
+        return new Vector2(((x - Gdx.graphics.getWidth() / 2f) * camera.zoom + camera.position.x ) / PPM,
+        -((y - Gdx.graphics.getHeight() / 2f) * camera.zoom  - camera.position.y) / PPM);
     }
 }

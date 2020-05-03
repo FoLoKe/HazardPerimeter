@@ -21,7 +21,9 @@ public abstract class Entity {
     protected Inventory inventory;
 
     public Entity(TextureRegion texture) {
-        this.sprite = new Sprite(texture);
+        if(texture != null) {
+            this.sprite = new Sprite(texture);
+        }
     }
 
     public void render(SpriteBatch batch, float delta) {
