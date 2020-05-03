@@ -28,8 +28,8 @@ public abstract class Pawn extends DynamicEntity implements Contactable {
 
     protected RegionSkeleton regionSkeleton;
 
-    public Pawn(World world) {
-        super(0.5f, 0.5f, world);
+    public Pawn(float w, float h, World world) {
+        super(w, h, world);
         inventory = new Inventory(this);
         inventory.add(new Inventory.Item(1,10));
         contacts = new ArrayList<>();

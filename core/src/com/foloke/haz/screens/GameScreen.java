@@ -83,7 +83,7 @@ public class GameScreen implements Screen {
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        camera.zoom = 0.25f;
+        camera.zoom = 0.1f;
         texture = new TextureRegion(img, 32, 32);
 
         Pawn player = new Character(world);

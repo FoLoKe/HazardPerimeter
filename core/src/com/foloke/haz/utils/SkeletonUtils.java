@@ -16,7 +16,7 @@ public class SkeletonUtils {
 
         TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("animations/Test.atlas"));
         SkeletonJson json = new SkeletonJson(atlas);
-        json.setScale(0.2f);
+        json.setScale(0.25f);
 
         SkeletonData data = json.readSkeletonData(Gdx.files.internal("animations/Test.json"));
 

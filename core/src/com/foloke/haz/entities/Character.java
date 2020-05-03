@@ -5,9 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
-import com.esotericsoftware.spine.Animation;
-import com.esotericsoftware.spine.AnimationState;
-import com.esotericsoftware.spine.AnimationStateData;
+import com.esotericsoftware.spine.*;
 import com.foloke.haz.components.Costume;
 import com.foloke.haz.components.Damage;
 import com.foloke.haz.components.Weapon;
@@ -19,9 +17,15 @@ public class Character extends Pawn {
     private Costume costume;
     private Vector2 sightPoint;
     AnimationState state;
+    Animation walkAnimation;
+    Animation idleAnimation;
+    Animation currentAnimation;
+    Animation aimAnimation;
+    IkConstraint rightHandIkConstraint;
+    IkConstraint leftHandIkConstraint;
 
     public Character(World world) {
-        super(world);
+        super(0.4f, 0.4f, world);
         weapon = new Weapon(GameScreen.texture, world, this);
         costume = new Costume();
 
@@ -34,9 +38,17 @@ public class Character extends Pawn {
         AnimationStateData stateData = new AnimationStateData(regionSkeleton.getData());
         state = new AnimationState(stateData);
 
-        Animation animation = regionSkeleton.getData().findAnimation("walkAmimation");
-        state.setAnimation(0, animation, true);
-        //state.addAnimation(0, animation, true, 0);
+        walkAnimation = regionSkeleton.getData().findAnimation("walk");
+        idleAnimation = regionSkeleton.getData().findAnimation("idle");
+        //aimAnimation = regionSkeleton.getData().findAnimation("aiming");
+
+
+        IkConstraintData data = regionSkeleton.getData().findIkConstraint("bone_ik");
+        rightHandIkConstraint = new IkConstraint(data, regionSkeleton);
+
+        IkConstraintData data1 = regionSkeleton.getData().findIkConstraint("bone_ik1");
+        leftHandIkConstraint = new IkConstraint(data1, regionSkeleton);
+        currentAnimation = idleAnimation;
     }
 
     @Override
@@ -55,10 +67,38 @@ public class Character extends Pawn {
             destroyed = true;
         }
 
+        Animation animation;
+        if(Math.abs(body.getLinearVelocity().x) > 0.2f) {
+            animation = walkAnimation;
+        } else {
+            animation = idleAnimation;
+        }
+
+        if(animation != currentAnimation) {
+            AnimationState.TrackEntry trackEntry = state.setAnimation(0, animation, true);
+            trackEntry.setMixDuration(0.5f);
+            currentAnimation = animation;
+        }
+
+
+
+
+        regionSkeleton.setFlipX(direction);
         regionSkeleton.setPosition(body.getPosition().x * GameScreen.PPM, body.getPosition().y * GameScreen.PPM);
         state.update(Gdx.graphics.getDeltaTime());
         state.apply(regionSkeleton);
+
         regionSkeleton.updateWorldTransform();
+
+        Bone boneRT = rightHandIkConstraint.getTarget();
+        boneRT.setWorldX(sightPoint.x * GameScreen.PPM);
+        boneRT.setWorldY(sightPoint.y * GameScreen.PPM);
+        rightHandIkConstraint.apply();
+
+        Bone boneLT = leftHandIkConstraint.getTarget();
+        boneLT.setWorldX((sightPoint.x + 0.2f * (direction ? -1 : 1)) * GameScreen.PPM);
+        boneLT.setWorldY(sightPoint.y * GameScreen.PPM);
+        leftHandIkConstraint.apply();
 
         GameScreen.skeletonRenderer.draw(batch, regionSkeleton);
     }
