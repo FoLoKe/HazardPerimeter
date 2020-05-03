@@ -2,14 +2,18 @@ package com.foloke.haz.entities;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.foloke.haz.components.Costume;
 import com.foloke.haz.components.Damage;
 import com.foloke.haz.components.Weapon;
+import com.foloke.haz.screens.GameScreen;
 
 public class Character extends Pawn {
     private Weapon weapon;
     private Costume costume;
+    private Vector2 sightPoint;
 
     public Character(TextureRegion textureRegion, World world) {
         super(textureRegion, world);
@@ -18,6 +22,8 @@ public class Character extends Pawn {
 
         radiationCap = 1000;
         bioCap = 100;
+
+        this.sightPoint = new Vector2();
     }
 
     @Override
@@ -47,7 +53,7 @@ public class Character extends Pawn {
 
     @Override
     public void shoot() {
-        weapon.shoot();
+        weapon.shoot(sightPoint);
     }
 
     @Override
@@ -78,5 +84,16 @@ public class Character extends Pawn {
 
     public Costume getCostume() {
         return costume;
+    }
+
+    @Override
+    public void debug(ShapeRenderer shapeRenderer) {
+        super.debug(shapeRenderer);
+        shapeRenderer.line(body.getPosition().scl(GameScreen.PPM), sightPoint.scl(GameScreen.PPM));
+    }
+
+    @Override
+    public void setSight(Vector2 sightPoint) {
+        this.sightPoint.set(sightPoint);
     }
 }

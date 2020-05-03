@@ -2,6 +2,7 @@ package com.foloke.haz.entities;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.foloke.haz.components.Inventory;
 import com.foloke.haz.controllers.Controller;
@@ -72,6 +73,8 @@ public abstract class Pawn extends DynamicEntity implements Contactable {
     }
 
     public abstract void shoot();
+
+    public abstract void setSight(Vector2 sightPoint);
 
     public void contact(Contactable entity) {
         contacts.add(entity);

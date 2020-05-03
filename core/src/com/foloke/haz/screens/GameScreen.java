@@ -214,6 +214,9 @@ public class GameScreen implements Screen {
             controller.stop();
         }
 
+        Vector2 worldHit = screenToWorld(Gdx.input.getX(), Gdx.input.getY());
+        controller.lookTo(worldHit);
+
         if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
             if(stage.hit(Gdx.input.getX(), Gdx.input.getY(), false) == null && !stage.isUiTouched()) {
                 Array<Fixture> fixtures = new Array<>();
@@ -222,8 +225,7 @@ public class GameScreen implements Screen {
                 boolean hit = false;
                 for(Fixture fixture : fixtures) {
                     if(fixture.getUserData() instanceof Pawn) {
-                        hit = fixture.testPoint((Gdx.input.getX() - Gdx.graphics.getWidth() / 2f + camera.position.x / camera.zoom) / PPM,
-                                (Gdx.input.getY() - Gdx.graphics.getHeight() / 2f + camera.position.y / camera.zoom) / PPM);
+                        hit = fixture.testPoint(worldHit);
                         if(hit) {
                             System.out.println("hit");
                             pawnDebugUI.debug((Pawn)fixture.getUserData());
@@ -299,5 +301,10 @@ public class GameScreen implements Screen {
             level.addEntity(drop);
             drop.setPosition(controller.getPosition());
         }
+    }
+
+    private Vector2 screenToWorld(float x, float y) {
+        return new Vector2((x - Gdx.graphics.getWidth() / 2f + camera.position.x / camera.zoom) / PPM,
+        -(y - Gdx.graphics.getHeight() / 2f - camera.position.y / camera.zoom) / PPM);
     }
 }

@@ -70,12 +70,12 @@ public class Weapon {
         }
     }
 
-    public void shoot() {
+    public void shoot(Vector2 shootTo) {
         if(magazine > 0) {
             if (nextFire <= 0) {
                 Bullet bullet = new Bullet(textureRegion, world, this);
                 bullets.add(bullet);
-                bullet.shoot(holder.getPosition(), new Vector2(holder.getDirection() ? -1 : 1, 0));
+                bullet.shoot(holder.getPosition(), shootTo);
                 nextFire = fireRate;
                 magazine--;
             }

@@ -66,4 +66,8 @@ public class Controller {
     public void pickUp() {
         pawn.pickUp();
     }
+
+    public void lookTo(Vector2 vector2) {
+        pawn.setSight(vector2);
+    }
 }

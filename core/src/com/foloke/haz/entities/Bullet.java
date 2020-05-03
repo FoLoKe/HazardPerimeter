@@ -65,8 +65,9 @@ public class Bullet extends DynamicEntity {
 
     public void shoot(Vector2 position, Vector2 direction) {
         sound.play();
+        direction.sub(position);
         body.setTransform(position, direction.angle() * MathUtils.degreesToRadians);
-        body.setLinearVelocity(direction.scl(speed));
+        body.setLinearVelocity(direction.nor().scl(speed));
     }
 
     public void hit(Entity entity) {
